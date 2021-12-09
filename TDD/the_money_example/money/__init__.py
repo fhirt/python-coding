@@ -1,2 +1,1 @@
-from .bank import Bank
-from .expression import Sum, Money
+from .expression import Sum, Money, Bank

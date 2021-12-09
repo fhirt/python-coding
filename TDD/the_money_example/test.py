@@ -21,14 +21,18 @@ class TestCurrency(unittest.TestCase):
     def test_simple_addition(self):
         five = Money.dollar(5)
         total = five.plus(five)
-        reduced = Bank.reduce(total, "USD")
+        reduced = Bank().reduce(total, "USD")
         self.assertEqual(reduced, Money.dollar(10))
 
     def test_reduce_sum(self):
         expression = Sum(Money.dollar(3), Money.dollar(4))
-        result = Bank.reduce(expression, "USD")
+        result = Bank().reduce(expression, "USD")
         self.assertEqual(result, Money.dollar(7))
 
+    def test_reduce_money(self):
+        expression = Money.dollar(5)
+        result = Bank().reduce(expression, "USD")
+        self.assertEqual(result, Money.dollar(5))
     
     def test_plus_returns_sum(self):
         five = Money.dollar(5)
@@ -36,6 +40,15 @@ class TestCurrency(unittest.TestCase):
         self.assertEqual(total.addend, five)
         self.assertEqual(total.augend, five)
 
+    def test_exchange_rate(self):
+        bank = Bank()
+        bank.add_rate("CHF", "USD", 2)
+        dollar = bank.reduce(Money.franc(2), "USD")
+        self.assertEqual(dollar, Money.dollar(1))
+
+    def test_identity_rate(self):
+        rate = Bank().rate("USD", "USD")
+        self.assertEqual(rate, 1)
         
 if __name__ == '__main__':
     unittest.main()
