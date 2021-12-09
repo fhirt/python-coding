@@ -1,15 +1,15 @@
 from __future__ import annotations
-import abc
 
-class Expression(metaclass=abc.ABCMeta):
-    @classmethod
-    def __subclasshook__(cls, subclass):
-        return (hasattr(subclass, 'reduce') and
-        callable(subclass.reduce))
+class Expression:
+    def reduce(self, bank: Bank, to: str) -> Money:
+        raise SystemExit("needs implementation")
+
+    def plus(self, addend: Expression):
+        raise SystemExit("needs implementation")
 
 
 class Sum(Expression):
-    def __init__(self, augend, addend) -> None:
+    def __init__(self, augend: Expression, addend: Expression) -> None:
         self.augend = augend
         self.addend = addend
 
@@ -39,10 +39,10 @@ class Money(Expression):
     def currency(self) -> str:
         return self.__currency
 
-    def times(self, multiplier) -> Money:
+    def times(self, multiplier) -> Expression:
         return Money(self.amount * multiplier, self.currency())
 
-    def plus(self, addend: Money) -> Expression:
+    def plus(self, addend: Expression) -> Expression:
         return Sum(self, addend)
 
     def __eq__(self, other: object) -> bool:
