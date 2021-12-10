@@ -4,9 +4,11 @@ class Expression:
     def reduce(self, bank: Bank, to: str) -> Money:
         raise SystemExit("needs implementation")
 
-    def plus(self, addend: Expression):
+    def plus(self, addend: Expression) -> Expression:
         raise SystemExit("needs implementation")
 
+    def times(self, multiplier) -> Expression:
+        raise SystemExit("needs implementation")
 
 class Sum(Expression):
     def __init__(self, augend: Expression, addend: Expression) -> None:
@@ -14,9 +16,13 @@ class Sum(Expression):
         self.addend = addend
 
     def reduce(self, bank: Bank, to: str) -> Money:
-        augend_rate = bank.rate(self.augend.currency(), to)
-        addend_rate = bank.rate(self.addend.currency(), to)
-        return Money(self.augend.amount / augend_rate + self.addend.amount / addend_rate, to)
+        return Money(self.augend.reduce(bank, to).amount + self.addend.reduce(bank, to).amount, to)
+
+    def plus(self, addend: Expression):
+        return Sum(self, addend)
+
+    def times(self, multiplier) -> Expression:
+        return Sum(self.augend.times(multiplier), self.addend.times(multiplier))
 
 
 class Money(Expression):
