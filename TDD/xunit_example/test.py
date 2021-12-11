@@ -1,4 +1,3 @@
-import inspect
 from xunit import TestCase, TestResult, TestSuite
 
 class WasRun(TestCase):
