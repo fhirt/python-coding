@@ -1,6 +1,6 @@
-from xunit import TestCase, TestResult, TestSuite
+import xunit
 
-class WasRun(TestCase):
+class WasRun(xunit.TestCase):
     def __init__(self, name) -> None:
         super().__init__(name)
 
@@ -25,10 +25,10 @@ class RaiseSetupException(WasRun):
         super().setup()
         raise Exception("setup failed")
     
-class TestCaseTest(TestCase):
+class TestCaseTest(xunit.TestCase):
     
     def setup(self):
-        self.result = TestResult()    
+        self.result = xunit.TestResult()    
     
     def test_template_method(self):
         test = WasRun("test_method")
@@ -56,7 +56,7 @@ class TestCaseTest(TestCase):
         assert(self.result.summary() == "1 run, 1 failed")
 
     def test_suite(self):
-        suite = TestSuite()
+        suite = xunit.TestSuite()
         suite.add(WasRun("test_method"))
         suite.add(WasRun("test_broken_method"))
         suite.run(self.result)
@@ -76,7 +76,7 @@ class TestCaseTest(TestCase):
         assert(suite.number_of_tests() == 2)
         
 suite = TestCaseTest.create_test_suite()
-result = TestResult()       
+result = xunit.TestResult()       
 suite.run(result)
 
 print(result.summary())
