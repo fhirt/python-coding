@@ -2,13 +2,13 @@ from __future__ import annotations
 
 class Expression:
     def reduce(self, bank: Bank, to: str) -> Money:
-        raise SystemExit("needs implementation")
+        raise NotImplementedError
 
     def plus(self, addend: Expression) -> Expression:
-        raise SystemExit("needs implementation")
+        raise NotImplementedError
 
     def times(self, multiplier) -> Expression:
-        raise SystemExit("needs implementation")
+        raise NotImplementedError
 
 class Sum(Expression):
     def __init__(self, augend: Expression, addend: Expression) -> None:

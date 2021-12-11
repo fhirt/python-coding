@@ -1,4 +1,3 @@
-import inspect
 from xunit import TestCase, TestResult, TestSuite
 
 class WasRun(TestCase):
@@ -15,8 +14,7 @@ class WasRun(TestCase):
         self.log = self.log + "tear_down"
 
     def test_broken_method(self):
-        assert(1 == 2)            
-    
+        assert(1 == 2)
     
 class RaiseSetupException(WasRun):
     def __init__(self, name) -> None:
