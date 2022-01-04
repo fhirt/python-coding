@@ -94,11 +94,21 @@ capitals_dict = {
     'Georgia': 'Atlanta',
 }
 
-random_state = random.choice(capitals_dict)
-correct_capital = capitals_dict[random_state]
+random_state = random.choice(list(capitals_dict.keys()))
+correct_capital = capitals_dict[random_state].lower()
 
 still_guessing = True
 
 while still_guessing:
-    print(f"What is the capital of 
-          ")
+    answer = input(f"What is the capital of {random_state}? (or exit to quit the quizz)").lower()
+    if answer == correct_capital:
+        print("Correct")
+        still_guessing = False
+    elif answer == "exit":
+        print(correct_capital)
+        print("Goodbye")
+        still_guessing = False
+    else:
+        print("try again")
+    
+    
